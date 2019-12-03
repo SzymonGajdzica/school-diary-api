@@ -1,4 +1,4 @@
-package pl.polsl.school.diary.api.jwt;
+package pl.polsl.school.diary.api.authentication;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;

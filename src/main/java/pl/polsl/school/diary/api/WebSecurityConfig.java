@@ -14,8 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.polsl.school.diary.api.jwt.AuthenticationMEntryPoint;
-import pl.polsl.school.diary.api.jwt.AuthenticationRequestFilter;
+import pl.polsl.school.diary.api.authentication.AuthenticationMEntryPoint;
+import pl.polsl.school.diary.api.authentication.AuthenticationRequestFilter;
 
 @AllArgsConstructor
 @Configuration

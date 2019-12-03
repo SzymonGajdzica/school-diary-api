@@ -4,9 +4,9 @@ import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
+import pl.polsl.school.diary.api.authentication.AuthenticationUtils;
 import pl.polsl.school.diary.api.exception.NotAuthorizedActionException;
 import pl.polsl.school.diary.api.exception.NotFoundException;
-import pl.polsl.school.diary.api.jwt.AuthenticationUtils;
 import pl.polsl.school.diary.api.user.User;
 import pl.polsl.school.diary.api.user.UserRepository;
 

@@ -1,4 +1,4 @@
-package pl.polsl.school.diary.api.jwt;
+package pl.polsl.school.diary.api.authentication;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
