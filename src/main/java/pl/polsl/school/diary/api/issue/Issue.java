@@ -1,26 +1,22 @@
 package pl.polsl.school.diary.api.issue;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
+import pl.polsl.school.diary.api.base.BaseModel;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "issues")
 @ToString
 @Data
-public class Issue {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
-    private Long id;
+public class Issue extends BaseModel {
 
     @Column(name = "topic", nullable = false)
     private String topic;

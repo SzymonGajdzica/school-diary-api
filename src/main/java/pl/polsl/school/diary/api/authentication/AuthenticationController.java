@@ -14,8 +14,12 @@ import pl.polsl.school.diary.api.base.Message;
 import pl.polsl.school.diary.api.exception.NotAuthorizedActionException;
 import pl.polsl.school.diary.api.exception.UsernameAlreadyUsedException;
 import pl.polsl.school.diary.api.exception.WrongRequestBodyException;
+import pl.polsl.school.diary.api.parent.Parent;
+import pl.polsl.school.diary.api.parent.ParentRepository;
 import pl.polsl.school.diary.api.role.Role;
 import pl.polsl.school.diary.api.role.RoleRepository;
+import pl.polsl.school.diary.api.student.Student;
+import pl.polsl.school.diary.api.student.StudentRepository;
 import pl.polsl.school.diary.api.teacher.Teacher;
 import pl.polsl.school.diary.api.teacher.TeacherRepository;
 import pl.polsl.school.diary.api.user.User;
@@ -36,6 +40,8 @@ public class AuthenticationController {
     private final AuthenticationUserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
+    private final ParentRepository parentRepository;
+    private final StudentRepository studentRepository;
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Message registerUser(@RequestBody UserPost userPost) {
@@ -60,6 +66,17 @@ public class AuthenticationController {
                     throw new WrongRequestBodyException("should have isHeadTeacher");
                 teacher.setIsHeadTeacher(userPost.getIsHeadTeacher());
                 teacherRepository.save(teacher);
+                break;
+
+            case "Parent":
+                Parent parent = new Parent(user);
+                parentRepository.save(parent);
+                break;
+
+            case "Student":
+                Student student = new Student(user);
+                student.setHasAccount(false);
+                studentRepository.save(student);
                 break;
 
         }

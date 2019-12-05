@@ -33,16 +33,16 @@ public class IssueController {
 
         Set<Long> membersIds = issuePost.getMembersIds();
         String topic = issuePost.getTopic();
-        if(membersIds.isEmpty() || topic.equals(""))
+        if(membersIds.isEmpty() || topic == null || topic.equals(""))
             throw new EmptyRequestBodyException("missing necessary issue properties");
 
+        Set<Long> databaseMembersIds = userRepository.findIdsByIdIsIn(membersIds);
+        if(!databaseMembersIds.equals(membersIds))
+            throw new WrongRequestBodyException("some users with specified ids are not present in the database or they are not allowed to be chosen");
         membersIds.add(user.getId());
         Issue issue = new Issue();
         issue.setTopic(topic);
         issue.setStartDate(new Date());
-        Set<Long> databaseMembersIds = userRepository.findIdsByIdIsIn(membersIds);
-        if(!databaseMembersIds.equals(membersIds))
-            throw new WrongRequestBodyException("some users with specified ids are not present in the database");
 
         Set<ActiveUser> members = new HashSet<>();
         for (Long memberId : membersIds) {
