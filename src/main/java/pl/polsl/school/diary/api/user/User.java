@@ -1,18 +1,16 @@
 package pl.polsl.school.diary.api.user;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import pl.polsl.school.diary.api.role.Role;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "users")
 @ToString
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -35,7 +33,17 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
-    private Set<Role> roles;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
+
+    public User(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.email = user.email;
+        this.password = user.password;
+        this.surname = user.surname;
+        this.username = user.username;
+        this.role = user.role;
+    }
 
 }

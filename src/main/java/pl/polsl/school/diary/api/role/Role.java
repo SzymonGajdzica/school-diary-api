@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 @ToString
 @Data
 public class Role {
@@ -23,7 +23,7 @@ public class Role {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<User> users;
 
 }

@@ -22,7 +22,8 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserView> getUsers(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
         User user = tokenRepository.getUserFromHeader(tokenHeader);
-        if(user.getRoles().stream().noneMatch(role -> role.getName().equals("admin")))
+
+        if(!user.getRole().getName().equals("admin"))
             throw new NotAuthorizedActionException("this action requires admin privileges");
         return userRepository.findAll().stream().map(UserView::new).collect(Collectors.toList());
     }
