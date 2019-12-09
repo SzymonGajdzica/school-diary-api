@@ -12,22 +12,43 @@ public class ExceptionAdvice {
 
     @ResponseBody
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public Message notFoundHandler(NotFoundException e) {
         return generateBasicMessage(e);
     }
 
     @ResponseBody
     @ExceptionHandler(NotAuthorizedActionException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public Message notAuthorizedActionHandler(NotAuthorizedActionException e) {
         return generateBasicMessage(e);
     }
 
     @ResponseBody
     @ExceptionHandler(UsernameAlreadyUsedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public Message usernameAlreadyUsedHandler(UsernameAlreadyUsedException e) {
+        return generateBasicMessage(e);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(WrongRequestBodyException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public Message wrongRequestBodyHandler(WrongRequestBodyException e) {
+        return generateBasicMessage(e);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(EmptyRequestBodyException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public Message emptyRequestBodyHandler(EmptyRequestBodyException e) {
+        return generateBasicMessage(e);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(NotImplementedException.class)
+    @ResponseStatus(value = HttpStatus.NOT_IMPLEMENTED)
+    public Message notImplementedHandler(NotImplementedException e) {
         return generateBasicMessage(e);
     }
 

@@ -15,6 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/issues")
@@ -33,30 +34,20 @@ public class IssueController {
 
         Set<Long> membersIds = issuePost.getMembersIds();
         String topic = issuePost.getTopic();
-        if(membersIds.isEmpty() || topic == null || topic.equals(""))
+        if(membersIds  == null || membersIds.isEmpty() || topic == null || topic.isEmpty())
             throw new EmptyRequestBodyException("missing necessary issue properties");
 
         Set<Long> databaseMembersIds = userRepository.findIdsByIdIsIn(membersIds);
         if(!databaseMembersIds.equals(membersIds))
             throw new WrongRequestBodyException("some users with specified ids are not present in the database or they are not allowed to be chosen");
         membersIds.add(user.getId());
+
         Issue issue = new Issue();
         issue.setTopic(topic);
         issue.setStartDate(new Date());
-
-        Set<ActiveUser> members = new HashSet<>();
-        for (Long memberId : membersIds) {
-            members.add(new ActiveUser(memberId));
-        }
-        issue.setMembers(members);
+        issue.setMembers(membersIds.stream().map(ActiveUser::new).collect(Collectors.toSet()));
         issue.setMessages(new HashSet<>());
-        issueRepository.save(issue);
 
-        IssueView issueView = new IssueView();
-        issueView.setId(issue.getId());
-        issueView.setTopic(topic);
-        issueView.setMembersIds(membersIds);
-        issueView.setMessagesIds(new HashSet<>());
-        return issueView;
+        return new IssueView(issueRepository.save(issue));
     }
 }

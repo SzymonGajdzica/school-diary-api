@@ -18,8 +18,6 @@ public class UserView {
     private String email;
     @ApiModelProperty(required = true, example = "John33")
     private String username;
-    //ApiModelProperty(required = true)
-    //private Set<Long> rolesId;
     @ApiModelProperty(required = true)
     private Long roleId;
 
@@ -30,11 +28,6 @@ public class UserView {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.roleId = user.getRole().getId();
-        //this.roleId = null;
-        //if(user.getRoles() != null)
-            //this.rolesId = user.getRoles().stream().map(Role::getId).collect(Collectors.toSet());
-        //else
-            //this.rolesId = new HashSet<>();
     }
 
 }

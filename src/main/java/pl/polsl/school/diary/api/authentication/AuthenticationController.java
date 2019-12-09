@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.school.diary.api.base.Message;
 import pl.polsl.school.diary.api.exception.NotAuthorizedActionException;
+import pl.polsl.school.diary.api.exception.NotImplementedException;
 import pl.polsl.school.diary.api.exception.UsernameAlreadyUsedException;
 import pl.polsl.school.diary.api.exception.WrongRequestBodyException;
 import pl.polsl.school.diary.api.parent.Parent;
@@ -26,11 +27,9 @@ import pl.polsl.school.diary.api.user.User;
 import pl.polsl.school.diary.api.user.UserPost;
 import pl.polsl.school.diary.api.user.UserRepository;
 
-import java.util.Optional;
-
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/authenticate")
 public class AuthenticationController {
 
     private final UserRepository userRepository;
@@ -53,17 +52,17 @@ public class AuthenticationController {
         user.setEmail(userPost.getEmail());
         user.setSurname(userPost.getSurname());
         user.setName(userPost.getName());
-        Optional<Role> role = roleRepository.findByName(userPost.getRoleName());
-        if(!role.isPresent())
-            throw new WrongRequestBodyException("should have existing role");
-        user.setRole(role.get());
+        Role role = roleRepository
+                .findById(userPost.getRoleId())
+                .orElseThrow(() -> new WrongRequestBodyException("should have existing role"));
 
+        user.setRole(role);
 
-        switch(userPost.getRoleName()) {
+        switch(user.getRole().getName()) {
             case "Teacher":
                 Teacher teacher = new Teacher(user);
                 if(userPost.getIsHeadTeacher() == null)
-                    throw new WrongRequestBodyException("should have isHeadTeacher");
+                    throw new WrongRequestBodyException("when registering teacher, field isHeadTeacher is required");
                 teacher.setIsHeadTeacher(userPost.getIsHeadTeacher());
                 teacherRepository.save(teacher);
                 break;
@@ -78,7 +77,8 @@ public class AuthenticationController {
                 student.setHasAccount(false);
                 studentRepository.save(student);
                 break;
-
+            default:
+                throw new NotImplementedException("registering user with " + user.getRole().getName() + " role");
         }
 
         return new Message("User registered", "Now you can login with given username and password");

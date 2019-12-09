@@ -1,9 +1,6 @@
 package pl.polsl.school.diary.api.role;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import pl.polsl.school.diary.api.user.User;
 
 import javax.persistence.*;
@@ -13,6 +10,7 @@ import java.util.Set;
 @Table(name = "roles")
 @ToString
 @Data
+@NoArgsConstructor
 public class Role {
 
     @Id

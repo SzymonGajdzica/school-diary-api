@@ -10,11 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Message {
 
-    @ApiModelProperty(required = true, example = "Authentication problem")
+    @ApiModelProperty(required = true, example = "Sample title")
     @Setter(AccessLevel.NONE)
     private String title;
 
-    @ApiModelProperty(required = true, example = "User could not be authenticated")
+    @ApiModelProperty(required = true, example = "Sample description")
     @Setter(AccessLevel.NONE)
     private String description;
 

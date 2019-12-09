@@ -2,6 +2,7 @@ package pl.polsl.school.diary.api.grade;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 import pl.polsl.school.diary.api.student.Student;
@@ -20,6 +21,7 @@ import javax.validation.constraints.Min;
 @ToString
 @Entity
 @Table(name = "grades")
+@NoArgsConstructor
 public class Grade extends BaseModel {
 
     @Min(value = 1)

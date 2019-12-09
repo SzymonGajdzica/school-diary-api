@@ -28,13 +28,14 @@ public class SwaggerConfig {
                 .license("Licence")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .termsOfServiceUrl(null)
-                .version("1.0.0").contact(new Contact("Szymon Gajdzica","", "szymgaj226@student.polsl.pl"))
+                .version("0.0.2").contact(new Contact("Szymon Gajdzica","", "szymgaj226@student.polsl.pl"))
                 .build();
     }
 
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 .securityContexts(Lists.newArrayList(securityContext()))
                 .securitySchemes(Lists.newArrayList(apiKey()))

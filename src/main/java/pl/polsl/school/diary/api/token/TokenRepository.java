@@ -11,6 +11,4 @@ public interface TokenRepository {
 
     @NonNull User getAndValidateUserFromHeader(String tokenHeader, Long userId) throws NotAuthorizedActionException, NotFoundException;
 
-    void validateUserWithHeader(String tokenHeader, User user) throws NotAuthorizedActionException;
-
 }

@@ -2,6 +2,7 @@ package pl.polsl.school.diary.api.schoolclass;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import pl.polsl.school.diary.api.base.BaseModel;
 import pl.polsl.school.diary.api.schedule.Schedule;
 import pl.polsl.school.diary.api.student.Student;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "classes")
+@NoArgsConstructor
 public class SchoolClass extends BaseModel {
 
     @Column(name = "symbol")

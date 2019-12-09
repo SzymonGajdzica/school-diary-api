@@ -32,13 +32,6 @@ public class TokenRepositoryImpl implements TokenRepository {
         return user;
     }
 
-    @Override
-    public void validateUserWithHeader(String tokenHeader, User user) throws NotAuthorizedActionException {
-        String userName = getUsernameFromHeader(tokenHeader);
-        if (!userName.equals(user.getUsername()))
-            throw new NotAuthorizedActionException("cannot perform actions on not your own data");
-    }
-
     private String getUsernameFromHeader(String tokenHeader) throws NotAuthorizedActionException {
         try {
             String token = authenticationUtils.getTokenFromHeader(tokenHeader);
