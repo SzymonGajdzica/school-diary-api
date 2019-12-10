@@ -14,10 +14,10 @@ import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 @ToString
 @Entity
 @Table(name = "classrooms")
-@NoArgsConstructor
 public class Classroom extends BaseModel {
 
     @Column(name = "symbol")

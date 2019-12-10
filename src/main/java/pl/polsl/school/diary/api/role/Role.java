@@ -1,22 +1,22 @@
 package pl.polsl.school.diary.api.role;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import pl.polsl.school.diary.api.base.BaseModel;
 import pl.polsl.school.diary.api.user.User;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "roles")
-@ToString
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
-    protected Long id;
+@ToString
+@Entity
+@Table(name = "roles")
+public class Role extends BaseModel {
 
     @Column(name = "name", nullable = false)
     private String name;

@@ -3,6 +3,7 @@ package pl.polsl.school.diary.api.schoolclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 import pl.polsl.school.diary.api.schedule.Schedule;
 import pl.polsl.school.diary.api.student.Student;
@@ -13,9 +14,10 @@ import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "classes")
-@NoArgsConstructor
 public class SchoolClass extends BaseModel {
 
     @Column(name = "symbol")
@@ -27,7 +29,7 @@ public class SchoolClass extends BaseModel {
     @ManyToMany
     private Set<Teacher> teachers;
 
-    @OneToOne
+    @OneToOne(mappedBy = "ledClass") //TODO
     private Teacher leadingTeacher;
 
     @OneToMany(mappedBy = "schoolClass")

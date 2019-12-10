@@ -15,10 +15,10 @@ import javax.persistence.*;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@ToString
 @Data
 @NoArgsConstructor
+@ToString
+@Entity
 public class Teacher extends ActiveUser {
     @Column(name = "is_head_teacher")
     private Boolean isHeadTeacher;

@@ -13,10 +13,10 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
 @ToString
+@Entity
 public class Parent extends ActiveUser {
 
     @OneToMany(mappedBy = "parent")

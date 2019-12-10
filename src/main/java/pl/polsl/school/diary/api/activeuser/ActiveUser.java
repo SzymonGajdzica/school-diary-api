@@ -14,10 +14,10 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@ToString
 @Data
 @NoArgsConstructor
+@ToString
+@Entity
 public class ActiveUser extends User {
 
     @OneToMany(mappedBy = "author")

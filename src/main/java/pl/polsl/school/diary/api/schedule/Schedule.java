@@ -3,6 +3,7 @@ package pl.polsl.school.diary.api.schedule;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 import pl.polsl.school.diary.api.schoolclass.SchoolClass;
 import pl.polsl.school.diary.api.subject.Subject;
@@ -14,9 +15,10 @@ import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "schedules")
-@NoArgsConstructor
 public class Schedule extends BaseModel {
 
     @ManyToOne

@@ -10,12 +10,12 @@ import pl.polsl.school.diary.api.role.Role;
 import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "users")
-@ToString
-@Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@NoArgsConstructor
 public class User extends BaseModel {
 
     @Column(name = "name", nullable = false)

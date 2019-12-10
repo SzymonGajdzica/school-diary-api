@@ -18,10 +18,10 @@ import javax.validation.constraints.Min;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 @ToString
 @Entity
 @Table(name = "grades")
-@NoArgsConstructor
 public class Grade extends BaseModel {
 
     @Min(value = 1)

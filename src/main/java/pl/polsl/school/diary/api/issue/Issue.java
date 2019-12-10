@@ -2,6 +2,7 @@ package pl.polsl.school.diary.api.issue;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
@@ -12,10 +13,11 @@ import java.util.Date;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "issues")
-@ToString
-@Data
 public class Issue extends BaseModel {
 
     @Column(name = "topic", nullable = false)

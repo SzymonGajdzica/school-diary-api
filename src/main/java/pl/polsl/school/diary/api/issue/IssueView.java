@@ -3,6 +3,7 @@ package pl.polsl.school.diary.api.issue;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
+@ToString
 @NoArgsConstructor
 public class IssueView {
 

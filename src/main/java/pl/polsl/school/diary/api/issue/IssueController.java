@@ -26,7 +26,7 @@ public class IssueController {
     private final IssueRepository issueRepository;
     private final UserRepository userRepository;
 
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public IssueView addIssue(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader, @RequestBody IssuePost issuePost) {
         User user = tokenRepository.getUserFromHeader(tokenHeader);
         if(!(user instanceof ActiveUser))

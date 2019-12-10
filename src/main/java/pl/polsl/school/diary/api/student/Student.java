@@ -16,10 +16,10 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
 @Data
 @NoArgsConstructor
 @ToString
+@Entity
 public class Student extends User {
 
     @Column(name = "has_account")
