@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 import pl.polsl.school.diary.api.student.StudentView;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -18,10 +18,10 @@ public class ParentView {
     private Long id;
 
     @ApiModelProperty(required = true, position = 1)
-    private List<StudentView> children;
+    private Set<StudentView> children;
 
     public ParentView(Parent parent){
-        this(parent.getId(), parent.getChildren().stream().map(StudentView::new).collect(Collectors.toList()));
+        this(parent.getId(), parent.getChildren().stream().map(StudentView::new).collect(Collectors.toSet()));
     }
 
 }

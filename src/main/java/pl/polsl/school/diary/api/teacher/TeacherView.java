@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -21,7 +21,7 @@ public class TeacherView {
     private Boolean isHeadTeacher;
 
     @ApiModelProperty(required = true, example = "[0]", position = 2)
-    private List<Long> schoolClassesId;
+    private Set<Long> schoolClassesId;
 
     @ApiModelProperty(required = true, example = "0", position = 3)
     private Long taughtSubjectId;
@@ -31,7 +31,7 @@ public class TeacherView {
 
     public TeacherView(Teacher teacher) {
         this(teacher.getId(), teacher.getIsHeadTeacher(),
-                teacher.getSchoolClasses().stream().map(BaseModel::getId).collect(Collectors.toList()),
+                teacher.getSchoolClasses().stream().map(BaseModel::getId).collect(Collectors.toSet()),
                 teacher.getTaughtSubject().getId(), teacher.getLedClass().getId());
     }
 

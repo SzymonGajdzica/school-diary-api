@@ -17,8 +17,7 @@ public class SchoolClassView {
     private String symbol;
 
     public SchoolClassView(SchoolClass schoolClass){
-        id = schoolClass.getId();
-        symbol = schoolClass.getSymbol();
+        this(schoolClass.getId(), schoolClass.getSymbol());
     }
 
 }

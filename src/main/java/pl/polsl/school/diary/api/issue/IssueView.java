@@ -1,18 +1,17 @@
 package pl.polsl.school.diary.api.issue;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
 @ToString
-@NoArgsConstructor
+@AllArgsConstructor
 public class IssueView {
 
     @ApiModelProperty(required = true, example = "0")
@@ -28,10 +27,10 @@ public class IssueView {
     private Set<Long> membersIds;
 
     public IssueView(Issue issue){
-        id = issue.getId();
-        topic = issue.getTopic();
-        membersIds = issue.getMembers().stream().map(BaseModel::getId).collect(Collectors.toSet());
-        messagesIds = new HashSet<>();
+        this(issue.getId(),
+                issue.getTopic(),
+                issue.getMembers().stream().map(BaseModel::getId).collect(Collectors.toSet()),
+                issue.getMembers().stream().map(BaseModel::getId).collect(Collectors.toSet()));
     }
 
 }

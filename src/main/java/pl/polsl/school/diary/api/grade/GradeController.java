@@ -13,7 +13,7 @@ import pl.polsl.school.diary.api.user.User;
 import pl.polsl.school.diary.api.user.UserRepository;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,11 +49,11 @@ public class GradeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GradeView> getGrades(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
-                                     @RequestParam(required = false, defaultValue = "-1") Long studentId,
-                                     @RequestParam(required = false, defaultValue = "-1") Long subjectId) {
+    public Set<GradeView> getGrades(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
+                                    @RequestParam(required = false, defaultValue = "-1") Long studentId,
+                                    @RequestParam(required = false, defaultValue = "-1") Long subjectId) {
         User user = tokenRepository.getUserFromHeader(tokenHeader);
-        List<GradeProjection> projections = null;
+        Set<GradeProjection> projections = null;
 
         if (user instanceof Student)
             projections = gradeRepository.findStudentGrades(user.getId(), subjectId);
@@ -63,7 +63,7 @@ public class GradeController {
             projections = gradeRepository.findStudentGradesOfParent(studentId, subjectId, user.getId());
         if(projections == null)
             throw new NotImplementedException("this request only handles parent, student and teacher");
-        return projections.stream().map(GradeView::new).collect(Collectors.toList());
+        return projections.stream().map(GradeView::new).collect(Collectors.toSet());
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

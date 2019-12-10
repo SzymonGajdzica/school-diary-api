@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -17,8 +17,8 @@ public class RoleController {
     private final RoleRepository roleRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RoleView> getAllRoles() {
-        return roleRepository.findAll().stream().map(RoleView::new).collect(Collectors.toList());
+    public Set<RoleView> getAllRoles() {
+        return roleRepository.findAll().stream().map(RoleView::new).collect(Collectors.toSet());
     }
 
 }

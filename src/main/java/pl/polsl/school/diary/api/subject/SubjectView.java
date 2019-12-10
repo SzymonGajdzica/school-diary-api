@@ -17,8 +17,7 @@ public class SubjectView {
     private String name;
 
     public SubjectView(Subject subject){
-        id = subject.getId();
-        name = subject.getName();
+        this(subject.getId(), subject.getName());
     }
 
 }

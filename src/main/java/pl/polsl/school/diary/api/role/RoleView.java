@@ -1,13 +1,13 @@
 package pl.polsl.school.diary.api.role;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @ToString
-@NoArgsConstructor
+@AllArgsConstructor
 public class RoleView {
 
     @ApiModelProperty(required = true, example = "0")
@@ -16,7 +16,6 @@ public class RoleView {
     private String name;
 
     public RoleView(Role role) {
-        this.id = role.getId();
-        this.name = role.getName();
+        this(role.getId(), role.getName());
     }
 }
