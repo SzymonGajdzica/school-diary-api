@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = ("id"), callSuper = false)
 @Data
 @NoArgsConstructor
 @ToString

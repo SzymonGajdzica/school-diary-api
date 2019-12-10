@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = ("id"), callSuper = false)
 @Data
 @NoArgsConstructor
 @ToString

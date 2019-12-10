@@ -7,10 +7,13 @@ import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
 import pl.polsl.school.diary.api.user.User;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = ("id"), callSuper = false)
 @Data
 @NoArgsConstructor
 @ToString
@@ -21,7 +24,7 @@ public class Role extends BaseModel {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role")
     private Set<User> users;
 
 }

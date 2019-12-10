@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = ("id"), callSuper = false)
 @Data
 @NoArgsConstructor
 @ToString
@@ -37,4 +37,5 @@ public class Student extends User {
     public Student(User user) {
         super(user);
     }
+
 }

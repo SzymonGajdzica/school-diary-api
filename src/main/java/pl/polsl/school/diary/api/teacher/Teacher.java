@@ -14,12 +14,13 @@ import pl.polsl.school.diary.api.user.User;
 import javax.persistence.*;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = ("id"), callSuper = false)
 @Data
 @NoArgsConstructor
 @ToString
 @Entity
 public class Teacher extends ActiveUser {
+
     @Column(name = "is_head_teacher")
     private Boolean isHeadTeacher;
 

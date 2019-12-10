@@ -12,7 +12,7 @@ import pl.polsl.school.diary.api.teacher.Teacher;
 import javax.persistence.*;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = ("id"), callSuper = false)
 @Data
 @NoArgsConstructor
 @ToString
@@ -29,7 +29,7 @@ public class SchoolClass extends BaseModel {
     @ManyToMany
     private Set<Teacher> teachers;
 
-    @OneToOne(mappedBy = "ledClass") //TODO
+    @OneToOne(mappedBy = "ledClass")
     private Teacher leadingTeacher;
 
     @OneToMany(mappedBy = "schoolClass")

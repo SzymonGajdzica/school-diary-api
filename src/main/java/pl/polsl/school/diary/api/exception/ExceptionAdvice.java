@@ -52,6 +52,13 @@ public class ExceptionAdvice {
         return generateBasicMessage(e);
     }
 
+    @ResponseBody
+    @ExceptionHandler(WrongRequestException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public Message wrongRequestHandler(WrongRequestException e) {
+        return generateBasicMessage(e);
+    }
+
     private Message generateBasicMessage(Exception e){
         return new Message(e.getClass().getSimpleName(), e.getMessage());
     }
