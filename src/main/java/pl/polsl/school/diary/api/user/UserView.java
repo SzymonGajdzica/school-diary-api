@@ -13,19 +13,19 @@ public class UserView {
     @ApiModelProperty(required = true, example = "0")
     private Long id;
 
-    @ApiModelProperty(required = true, example = "John")
+    @ApiModelProperty(required = true, example = "John", position = 1)
     private String name;
 
-    @ApiModelProperty(required = true, example = "Bosh")
+    @ApiModelProperty(required = true, example = "Bosh", position = 2)
     private String surname;
 
-    @ApiModelProperty(required = true, example = "John33@gmail.com")
+    @ApiModelProperty(required = true, example = "John33@gmail.com", position = 3)
     private String email;
 
-    @ApiModelProperty(required = true, example = "John33")
+    @ApiModelProperty(required = true, example = "John33", position = 4)
     private String username;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = true, position = 5)
     private Long roleId;
 
     public UserView(User user){

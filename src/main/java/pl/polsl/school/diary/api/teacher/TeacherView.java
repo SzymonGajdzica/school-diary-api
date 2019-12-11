@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.user.UserView;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,8 +15,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TeacherView {
 
-    @ApiModelProperty(required = true, example = "0")
-    private Long id;
+    @ApiModelProperty(required = true)
+    private UserView details;
 
     @ApiModelProperty(required = true, example = "false", position = 1)
     private Boolean isHeadTeacher;
@@ -30,7 +31,7 @@ public class TeacherView {
     private Long ledClassId;
 
     public TeacherView(Teacher teacher) {
-        this(teacher.getId(), teacher.getIsHeadTeacher(),
+        this(new UserView(teacher), teacher.getIsHeadTeacher(),
                 teacher.getSchoolClasses().stream().map(BaseModel::getId).collect(Collectors.toSet()),
                 teacher.getTaughtSubject().getId(), teacher.getLedClass().getId());
     }

@@ -2,10 +2,7 @@ package pl.polsl.school.diary.api.parent;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.school.diary.api.exception.WrongRequestException;
 import pl.polsl.school.diary.api.token.TokenRepository;
 import pl.polsl.school.diary.api.user.User;
@@ -18,9 +15,10 @@ public class ParentController {
 
     private final TokenRepository tokenRepository;
 
-    @GetMapping(value = "/details" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ParentView getDetails(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
-        User parent = tokenRepository.getUserFromHeader(tokenHeader);
+    @GetMapping(value = "/{id}" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ParentView getParent(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
+                                 @PathVariable Long id) {
+        User parent = tokenRepository.getAndValidateUserFromHeader(tokenHeader, id);
         if(!(parent instanceof Parent))
             throw new WrongRequestException("This request is designed for parents");
         return new ParentView((Parent) parent);

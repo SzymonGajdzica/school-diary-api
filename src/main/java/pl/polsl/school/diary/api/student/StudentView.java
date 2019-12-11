@@ -11,20 +11,20 @@ import pl.polsl.school.diary.api.user.UserView;
 @AllArgsConstructor
 public class StudentView {
 
-    @ApiModelProperty(required = true, example = "0")
-    private Long id;
+    @ApiModelProperty(required = true)
+    private UserView details;
 
     @ApiModelProperty(required = true, example = "true", position = 1)
     private Boolean hasAccount;
 
-    @ApiModelProperty(required = true, example = "0", position = 2)
+    @ApiModelProperty(required = true, position = 2)
     private UserView parent;
 
     @ApiModelProperty(required = true, example = "0", position = 3)
     private Long schoolClassId;
 
     public StudentView(Student student){
-        this(student.getId(), student.getHasAccount(), new UserView(student.getParent()), student.getSchoolClass().getId());
+        this(new UserView(student), student.getHasAccount(), new UserView(student.getParent()), student.getSchoolClass().getId());
     }
 
 }

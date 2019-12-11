@@ -17,7 +17,7 @@ public class RoleController {
     private final RoleRepository roleRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<RoleView> getAllRoles() {
+    public Set<RoleView> getRoles() {
         return roleRepository.findAll().stream().map(RoleView::new).collect(Collectors.toSet());
     }
 

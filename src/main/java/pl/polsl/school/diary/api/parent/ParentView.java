@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 import pl.polsl.school.diary.api.student.StudentView;
+import pl.polsl.school.diary.api.user.UserView;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,14 +15,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ParentView {
 
-    @ApiModelProperty(required = true, example = "0")
-    private Long id;
+    @ApiModelProperty(required = true)
+    private UserView details;
 
     @ApiModelProperty(required = true, position = 1)
     private Set<StudentView> children;
 
     public ParentView(Parent parent){
-        this(parent.getId(), parent.getChildren().stream().map(StudentView::new).collect(Collectors.toSet()));
+        this(new UserView(parent), parent.getChildren().stream().map(StudentView::new).collect(Collectors.toSet()));
     }
 
 }
