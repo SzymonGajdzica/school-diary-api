@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-@EqualsAndHashCode(of = ("id"), callSuper = false)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @ToString

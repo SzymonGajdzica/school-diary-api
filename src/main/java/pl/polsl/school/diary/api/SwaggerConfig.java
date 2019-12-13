@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .license("Licence")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .termsOfServiceUrl(null)
-                .version("0.0.3").contact(new Contact("Szymon Gajdzica & Andrzej Greń","", "szymgaj226@student.polsl.pl"))
+                .version("0.0.4").contact(new Contact("Szymon Gajdzica & Andrzej Greń","", "szymgaj226@student.polsl.pl"))
                 .build();
     }
 

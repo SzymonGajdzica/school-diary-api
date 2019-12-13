@@ -14,7 +14,7 @@ public class Message {
     @Setter(AccessLevel.NONE)
     private String title;
 
-    @ApiModelProperty(required = true, example = "Sample description")
+    @ApiModelProperty(required = true, example = "Sample description", position = 1)
     @Setter(AccessLevel.NONE)
     private String description;
 

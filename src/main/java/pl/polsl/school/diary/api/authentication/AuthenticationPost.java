@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class AuthenticationPost {
 
-    @ApiModelProperty(required = true, example = "John33")
+    @ApiModelProperty(required = true, example = "jano33")
     private String username;
-    @ApiModelProperty(required = true, example = "JohnBosh123")
+    @ApiModelProperty(required = true, example = "jano33", position = 1)
     private String password;
 
 }

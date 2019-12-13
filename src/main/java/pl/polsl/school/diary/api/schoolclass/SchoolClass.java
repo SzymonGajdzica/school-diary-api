@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.grade.column.GradeColumn;
 import pl.polsl.school.diary.api.schedule.Schedule;
 import pl.polsl.school.diary.api.student.Student;
 import pl.polsl.school.diary.api.teacher.Teacher;
@@ -12,7 +13,7 @@ import pl.polsl.school.diary.api.teacher.Teacher;
 import javax.persistence.*;
 import java.util.Set;
 
-@EqualsAndHashCode(of = ("id"), callSuper = false)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @ToString
@@ -34,4 +35,8 @@ public class SchoolClass extends BaseModel {
 
     @OneToMany(mappedBy = "schoolClass")
     private Set<Schedule> schedules;
+
+    @OneToMany(mappedBy = "schoolClass")
+    private Set<GradeColumn> gradeColumns;
+
 }

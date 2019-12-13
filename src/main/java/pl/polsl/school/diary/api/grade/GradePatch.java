@@ -10,7 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class GradePatch {
 
-    @ApiModelProperty(required = true, example = "5", allowableValues = "1, 2, 3, 4, 5, 6")
+    @ApiModelProperty(example = "5", allowableValues = "1, 2, 3, 4, 5, 6")
     private Short value;
 
 }

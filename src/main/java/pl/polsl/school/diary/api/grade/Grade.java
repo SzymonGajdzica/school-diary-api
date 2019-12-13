@@ -5,9 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.grade.column.GradeColumn;
 import pl.polsl.school.diary.api.student.Student;
-import pl.polsl.school.diary.api.subject.Subject;
-import pl.polsl.school.diary.api.teacher.Teacher;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-@EqualsAndHashCode(of = ("id"), callSuper = false)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @ToString
@@ -30,11 +29,9 @@ public class Grade extends BaseModel {
     private Short value;
 
     @ManyToOne
-    private Subject subject;
-
-    @ManyToOne
-    private Teacher teacher;
-
-    @ManyToOne
     private Student student;
+
+    @ManyToOne
+    private GradeColumn gradeColumn;
+
 }

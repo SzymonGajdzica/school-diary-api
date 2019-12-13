@@ -1,6 +1,7 @@
 package pl.polsl.school.diary.api.issue;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
@@ -26,6 +27,7 @@ public class IssueController {
     private final IssueRepository issueRepository;
     private final UserRepository userRepository;
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public IssueView addIssue(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader, @RequestBody IssuePost issuePost) {
         User user = tokenRepository.getUserFromHeader(tokenHeader);

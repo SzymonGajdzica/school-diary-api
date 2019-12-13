@@ -21,7 +21,7 @@ public class TeacherView {
     @ApiModelProperty(required = true, example = "false", position = 1)
     private Boolean isHeadTeacher;
 
-    @ApiModelProperty(required = true, example = "[0]", position = 2)
+    @ApiModelProperty(required = true, position = 2)
     private Set<Long> schoolClassesId;
 
     @ApiModelProperty(required = true, example = "0", position = 3)

@@ -1,15 +1,13 @@
 package pl.polsl.school.diary.api.authentication;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.school.diary.api.base.Message;
 import pl.polsl.school.diary.api.exception.NotAuthorizedActionException;
 import pl.polsl.school.diary.api.exception.NotImplementedException;
@@ -42,6 +40,7 @@ public class AuthenticationController {
     private final ParentRepository parentRepository;
     private final StudentRepository studentRepository;
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Message registerUser(@RequestBody UserPost userPost) {
         User user = new User();

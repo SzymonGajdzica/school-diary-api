@@ -16,4 +16,7 @@ public class GradePost {
     @ApiModelProperty(required = true, example = "0", position = 1)
     private Long studentId;
 
+    @ApiModelProperty(required = true, example = "0", position = 2)
+    private Long gradeColumnId;
+
 }

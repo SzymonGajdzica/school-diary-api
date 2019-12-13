@@ -17,13 +17,13 @@ public class IssueView {
     @ApiModelProperty(required = true, example = "0")
     private Long id;
 
-    @ApiModelProperty(required = true, example = "Reprehensible behaviour on school trip")
+    @ApiModelProperty(required = true, example = "Reprehensible behaviour on school trip", position = 1)
     private String topic;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = true, position = 2)
     private Set<Long> messagesIds;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = true, position = 3)
     private Set<Long> membersIds;
 
     public IssueView(Issue issue){

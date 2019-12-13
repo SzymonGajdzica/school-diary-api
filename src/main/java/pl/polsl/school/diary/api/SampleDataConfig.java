@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
 import pl.polsl.school.diary.api.grade.Grade;
 import pl.polsl.school.diary.api.grade.GradeRepository;
+import pl.polsl.school.diary.api.grade.column.GradeColumn;
+import pl.polsl.school.diary.api.grade.column.GradeColumnRepository;
 import pl.polsl.school.diary.api.issue.Issue;
 import pl.polsl.school.diary.api.issue.IssueMessage;
 import pl.polsl.school.diary.api.issue.IssueMessageRepository;
@@ -47,6 +49,7 @@ public class SampleDataConfig implements ApplicationRunner {
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
     private final SubjectRepository subjectRepository;
+    private final GradeColumnRepository gradeColumnRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -57,12 +60,21 @@ public class SampleDataConfig implements ApplicationRunner {
         Classroom classroom = createClassroom();
         Subject subject = createSubject();
         Parent parent = createParent(parentRole);
-        Teacher teacher = createTeacher(teacherRole, new HashSet<>(Collections.singletonList(schoolClass)), subject, schoolClass);
+        Teacher teacher = createTeacher(teacherRole, subject, schoolClass);
+        GradeColumn gradeColumn = createGradeColumn(teacher, schoolClass);
         Student student = createStudent(studentRole, parent, schoolClass);
         Issue issue = createIssue(new HashSet<>(Arrays.asList(parent, teacher)));
         Schedule schedule = createSchedule(classroom, schoolClass, subject, teacher);
-        Grade grade = createGrade(student, teacher, subject);
+        Grade grade = createGrade(student, gradeColumn);
         IssueMessage issueMessage = createIssueMessage(teacher, issue);
+    }
+
+    private GradeColumn createGradeColumn(Teacher teacher, SchoolClass schoolClass) {
+        GradeColumn gradeColumn = new GradeColumn();
+        gradeColumn.setName("Test1");
+        gradeColumn.setSchoolClass(schoolClass);
+        gradeColumn.setTeacher(teacher);
+        return gradeColumnRepository.save(gradeColumn);
     }
 
     private Subject createSubject() {
@@ -127,18 +139,17 @@ public class SampleDataConfig implements ApplicationRunner {
         return issueRepository.save(issue);
     }
 
-    private Grade createGrade(Student student, Teacher teacher, Subject subject){
+    private Grade createGrade(Student student, GradeColumn gradeColumn){
         Grade grade = new Grade();
         grade.setValue(Integer.valueOf(2).shortValue());
         grade.setStudent(student);
-        grade.setTeacher(teacher);
-        grade.setSubject(subject);
+        grade.setGradeColumn(gradeColumn);
         return gradeRepository.save(grade);
     }
 
-    private Teacher createTeacher(Role teacherRole, Set<SchoolClass> schoolClasses, Subject taughtSubject, SchoolClass ledClass) {
+    private Teacher createTeacher(Role teacherRole, Subject taughtSubject, SchoolClass ledClass) {
         Teacher teacher = new Teacher();
-        teacher.setSchoolClasses(schoolClasses);
+        teacher.setSchoolClasses(new HashSet<>(Collections.singletonList(ledClass)));
         teacher.setIsHeadTeacher(true);
         teacher.setTaughtSubject(taughtSubject);
         teacher.setLedClass(ledClass);
@@ -148,7 +159,10 @@ public class SampleDataConfig implements ApplicationRunner {
         teacher.setName("janothree");
         teacher.setSurname("janowicz");
         teacher.setRole(teacherRole);
-        return teacherRepository.save(teacher);
+        teacher = teacherRepository.save(teacher);
+        ledClass.setTeachers(new HashSet<>(Collections.singletonList(teacher)));
+        schoolClassRepository.save(ledClass);
+        return teacher;
     }
 
     private Parent createParent(Role parentRole) {

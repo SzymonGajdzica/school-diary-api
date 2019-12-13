@@ -9,7 +9,7 @@ import pl.polsl.school.diary.api.role.Role;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(of = ("id"), callSuper = false)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @ToString

@@ -1,9 +1,9 @@
 package pl.polsl.school.diary.api.user;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.school.diary.api.base.Message;
 import pl.polsl.school.diary.api.token.TokenRepository;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -20,15 +20,15 @@ public class UserController {
         return new UserView(tokenRepository.getUserFromHeader(tokenHeader));
     }
 
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Message deleteUser(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
+    public void deleteUser(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
                               @PathVariable Long id) {
         userRepository.delete(tokenRepository.getAndValidateUserFromHeader(tokenHeader, id));
-        return new Message("Success", "User deleted");
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Message updateUser(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
+    public UserView updateUser(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
                               @PathVariable Long id,
                               @RequestBody UserPatch userPatch) {
         User user = tokenRepository.getAndValidateUserFromHeader(tokenHeader, id);
@@ -38,8 +38,7 @@ public class UserController {
             user.setSurname(userPatch.getSurname());
         if(userPatch.getEmail() != null)
             user.setEmail(userPatch.getEmail());
-        userRepository.save(user);
-        return new Message("Success", "User updated");
+        return new UserView(userRepository.save(user));
     }
 
 }
