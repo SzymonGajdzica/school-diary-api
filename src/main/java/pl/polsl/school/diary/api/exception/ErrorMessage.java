@@ -1,4 +1,4 @@
-package pl.polsl.school.diary.api.base;
+package pl.polsl.school.diary.api.exception;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -8,13 +8,13 @@ import lombok.Setter;
 
 @Data
 @AllArgsConstructor
-public class Message {
+public class ErrorMessage {
 
-    @ApiModelProperty(required = true, example = "Sample title")
+    @ApiModelProperty(required = true, example = "NotAuthorizedException")
     @Setter(AccessLevel.NONE)
     private String title;
 
-    @ApiModelProperty(required = true, example = "Sample description", position = 1)
+    @ApiModelProperty(required = true, example = "Not allowed to execute this request", position = 1)
     @Setter(AccessLevel.NONE)
     private String description;
 

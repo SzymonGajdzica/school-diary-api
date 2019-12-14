@@ -1,13 +1,13 @@
 package pl.polsl.school.diary.api.authentication;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+@Data
+@ToString
 @AllArgsConstructor
 public class AuthenticationView {
 

@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Optional;
 import java.util.Set;
 
-@RepositoryRestResource(excerptProjection = PSimpleUserView.class)
+@RepositoryRestResource
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String userName);

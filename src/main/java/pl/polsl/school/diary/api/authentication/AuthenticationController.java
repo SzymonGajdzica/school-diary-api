@@ -8,7 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.school.diary.api.base.Message;
 import pl.polsl.school.diary.api.exception.NotAuthorizedActionException;
 import pl.polsl.school.diary.api.exception.NotImplementedException;
 import pl.polsl.school.diary.api.exception.UsernameAlreadyUsedException;
@@ -24,6 +23,7 @@ import pl.polsl.school.diary.api.teacher.TeacherRepository;
 import pl.polsl.school.diary.api.user.User;
 import pl.polsl.school.diary.api.user.UserPost;
 import pl.polsl.school.diary.api.user.UserRepository;
+import pl.polsl.school.diary.api.user.UserView;
 
 @AllArgsConstructor
 @RestController
@@ -42,7 +42,7 @@ public class AuthenticationController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Message registerUser(@RequestBody UserPost userPost) {
+    public UserView registerUser(@RequestBody UserPost userPost) {
         User user = new User();
         user.setUsername(userPost.getUsername());
         if(userRepository.findByUsername(user.getUsername()).isPresent())
@@ -63,24 +63,17 @@ public class AuthenticationController {
                 if(userPost.getIsHeadTeacher() == null)
                     throw new WrongRequestBodyException("when registering teacher, field isHeadTeacher is required");
                 teacher.setIsHeadTeacher(userPost.getIsHeadTeacher());
-                teacherRepository.save(teacher);
-                break;
-
+                return new UserView(teacherRepository.save(teacher));
             case "Parent":
                 Parent parent = new Parent(user);
-                parentRepository.save(parent);
-                break;
-
+                return new UserView(parentRepository.save(parent));
             case "Student":
                 Student student = new Student(user);
                 student.setHasAccount(false);
-                studentRepository.save(student);
-                break;
+                return new UserView(studentRepository.save(student));
             default:
                 throw new NotImplementedException("registering user with " + user.getRole().getName() + " role");
         }
-
-        return new Message("User registered", "Now you can login with given username and password");
     }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
