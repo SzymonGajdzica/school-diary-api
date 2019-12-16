@@ -15,7 +15,7 @@ public class AuthenticationView {
     @Getter(AccessLevel.PUBLIC)
     private final String token;
 
-    @ApiModelProperty(required = true, example = "2019-11-27T10:57:43.019+01:00", position = 1)
+    @ApiModelProperty(required = true, position = 1)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Getter(AccessLevel.PUBLIC)
     private final Date expirationDate;

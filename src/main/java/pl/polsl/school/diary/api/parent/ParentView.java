@@ -19,16 +19,16 @@ public class ParentView {
     private UserView details;
 
     @ApiModelProperty(required = true, position = 1)
-    private Set<StudentViewOfParent> children;
+    private Set<InnerStudentView> children;
 
     public ParentView(Parent parent){
-        this(new UserView(parent), parent.getChildren().stream().map(StudentViewOfParent::new).collect(Collectors.toSet()));
+        this(new UserView(parent), parent.getChildren().stream().map(InnerStudentView::new).collect(Collectors.toSet()));
     }
 
     @Data
     @ToString
     @AllArgsConstructor
-    public static class StudentViewOfParent {
+    public static class InnerStudentView {
 
         @ApiModelProperty(required = true)
         private UserView details;
@@ -36,11 +36,13 @@ public class ParentView {
         @ApiModelProperty(required = true, example = "true", position = 1)
         private Boolean hasAccount;
 
-        @ApiModelProperty(required = true, example = "0", position = 3)
+        @ApiModelProperty(required = true, position = 2)
         private Long schoolClassId;
 
-        public StudentViewOfParent(Student student){
-            this(new UserView(student), student.getHasAccount(), student.getSchoolClass().getId());
+        public InnerStudentView(Student student){
+            this(new UserView(student),
+                    student.getHasAccount(),
+                    student.getSchoolClass().getId());
         }
 
     }

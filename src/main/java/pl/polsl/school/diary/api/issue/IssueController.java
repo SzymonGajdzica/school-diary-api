@@ -13,7 +13,6 @@ import pl.polsl.school.diary.api.user.User;
 import pl.polsl.school.diary.api.user.UserRepository;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,7 +45,6 @@ public class IssueController {
 
         Issue issue = new Issue();
         issue.setTopic(topic);
-        issue.setStartDate(new Date());
         issue.setMembers(membersIds.stream().map(ActiveUser::new).collect(Collectors.toSet()));
         issue.setMessages(new HashSet<>());
 

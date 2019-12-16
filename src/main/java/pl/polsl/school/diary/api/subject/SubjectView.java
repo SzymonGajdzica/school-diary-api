@@ -10,7 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class SubjectView {
 
-    @ApiModelProperty(required = true, example = "0")
+    @ApiModelProperty(required = true)
     private Long id;
 
     @ApiModelProperty(required = true, example = "Math", position = 1)

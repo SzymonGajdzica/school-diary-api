@@ -15,6 +15,6 @@ public class IssuePost {
     @ApiModelProperty(required = true, example = "Reprehensible behaviour on school trip")
     private String topic;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = true, position = 1)
     private Set<Long> membersIds;
 }

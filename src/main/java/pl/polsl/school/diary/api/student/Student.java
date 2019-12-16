@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.grade.Grade;
+import pl.polsl.school.diary.api.note.Note;
 import pl.polsl.school.diary.api.parent.Parent;
 import pl.polsl.school.diary.api.schoolclass.SchoolClass;
 import pl.polsl.school.diary.api.user.User;
@@ -33,6 +34,9 @@ public class Student extends User {
 
     @OneToMany(mappedBy = "student")
     private Set<Grade> grades;
+
+    @OneToMany(mappedBy = "student")
+    private Set<Note> notes;
 
     public Student(User user) {
         super(user);

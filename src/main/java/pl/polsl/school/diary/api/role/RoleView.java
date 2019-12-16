@@ -10,9 +10,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public class RoleView {
 
-    @ApiModelProperty(required = true, example = "0")
+    @ApiModelProperty(required = true)
     private Long id;
-    @ApiModelProperty(required = true, example = "Teacher")
+
+    @ApiModelProperty(required = true, example = "Teacher", position = 1)
     private String name;
 
     public RoleView(Role role) {

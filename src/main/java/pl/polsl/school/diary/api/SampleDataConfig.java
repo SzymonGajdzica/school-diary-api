@@ -14,6 +14,8 @@ import pl.polsl.school.diary.api.issue.Issue;
 import pl.polsl.school.diary.api.issue.IssueMessage;
 import pl.polsl.school.diary.api.issue.IssueMessageRepository;
 import pl.polsl.school.diary.api.issue.IssueRepository;
+import pl.polsl.school.diary.api.note.Note;
+import pl.polsl.school.diary.api.note.NoteRepository;
 import pl.polsl.school.diary.api.parent.Parent;
 import pl.polsl.school.diary.api.parent.ParentRepository;
 import pl.polsl.school.diary.api.role.Role;
@@ -50,6 +52,7 @@ public class SampleDataConfig implements ApplicationRunner {
     private final TeacherRepository teacherRepository;
     private final SubjectRepository subjectRepository;
     private final GradeColumnRepository gradeColumnRepository;
+    private final NoteRepository noteRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -67,6 +70,16 @@ public class SampleDataConfig implements ApplicationRunner {
         Schedule schedule = createSchedule(classroom, schoolClass, subject, teacher);
         Grade grade = createGrade(student, gradeColumn);
         IssueMessage issueMessage = createIssueMessage(teacher, issue);
+        Note note = createNote(teacher, student);
+    }
+
+    private Note createNote(Teacher teacher, Student student) {
+        Note note = new Note();
+        note.setTitle("Bad behaviour on school trip");
+        note.setDescription("Jan was...");
+        note.setTeacher(teacher);
+        note.setStudent(student);
+        return noteRepository.save(note);
     }
 
     private GradeColumn createGradeColumn(Teacher teacher, SchoolClass schoolClass) {
@@ -133,7 +146,6 @@ public class SampleDataConfig implements ApplicationRunner {
 
     private Issue createIssue(Set<ActiveUser> members) {
         Issue issue = new Issue();
-        issue.setStartDate(new Date());
         issue.setTopic("Important issue topic");
         issue.setMembers(members);
         return issueRepository.save(issue);

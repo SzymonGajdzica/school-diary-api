@@ -13,7 +13,7 @@ public class GradeColumnPost {
     @ApiModelProperty(required = true, example = "Exam1")
     private String name;
 
-    @ApiModelProperty(required = true, example = "0", position = 1)
+    @ApiModelProperty(required = true, position = 1)
     private Long schoolClassId;
 
 }

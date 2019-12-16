@@ -18,7 +18,7 @@ public class UserPost {
     private String username;
     @ApiModelProperty(required = true, example = "JohnBosh123")
     private String password;
-    @ApiModelProperty(required = true, example = "0")
+    @ApiModelProperty(required = true)
     private Long roleId;
     @ApiModelProperty(example = "true")
     private Boolean isHeadTeacher;

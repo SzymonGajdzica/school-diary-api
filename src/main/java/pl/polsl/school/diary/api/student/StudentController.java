@@ -19,7 +19,7 @@ public class StudentController {
     private final TokenRepository tokenRepository;
 
     @GetMapping(value = "/details" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public StudentView getStudent(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
+    public StudentView getDetails(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
         User student = tokenRepository.getUserFromHeader(tokenHeader);
         if(!(student instanceof Student))
             throw new WrongRequestException("This request is designed for students");

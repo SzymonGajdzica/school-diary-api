@@ -13,10 +13,10 @@ public class GradePost {
     @ApiModelProperty(required = true, example = "5", allowableValues = "1, 2, 3, 4, 5, 6")
     private Short value;
 
-    @ApiModelProperty(required = true, example = "0", position = 1)
+    @ApiModelProperty(required = true, position = 1)
     private Long studentId;
 
-    @ApiModelProperty(required = true, example = "0", position = 2)
+    @ApiModelProperty(required = true, position = 2)
     private Long gradeColumnId;
 
 }

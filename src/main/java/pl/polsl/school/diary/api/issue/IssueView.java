@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class IssueView {
 
-    @ApiModelProperty(required = true, example = "0")
+    @ApiModelProperty(required = true)
     private Long id;
 
     @ApiModelProperty(required = true, example = "Reprehensible behaviour on school trip", position = 1)

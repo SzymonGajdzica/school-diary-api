@@ -25,7 +25,7 @@ public class Issue extends BaseModel {
 
     @Column(name = "start_date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date startDate;
+    private Date startDate = new Date();
 
     @OneToMany(mappedBy = "issue")
     private Set<IssueMessage> messages;
