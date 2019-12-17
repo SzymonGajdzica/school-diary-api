@@ -28,7 +28,8 @@ public class IssueController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public IssueView addIssue(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader, @RequestBody IssuePost issuePost) {
+    public IssueView addIssue(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
+                              @RequestBody IssuePost issuePost) {
         User user = tokenRepository.getUserFromHeader(tokenHeader);
         if(!(user instanceof ActiveUser))
             throw new NotAuthorizedActionException("should be active user");
@@ -50,4 +51,13 @@ public class IssueController {
 
         return new IssueView(issueRepository.save(issue));
     }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<IssueView> getIssues(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
+        User activeUser = tokenRepository.getUserFromHeader(tokenHeader);
+        if (!(activeUser instanceof ActiveUser))
+            throw new NotAuthorizedActionException("should be active user");
+        return issueRepository.findAllByMembersContaining((ActiveUser) activeUser).stream().map(IssueView::new).collect(Collectors.toSet());
+    }
+
 }

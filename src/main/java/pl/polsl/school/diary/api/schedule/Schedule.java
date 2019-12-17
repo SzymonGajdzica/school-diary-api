@@ -4,14 +4,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.classroom.Classroom;
 import pl.polsl.school.diary.api.schoolclass.SchoolClass;
-import pl.polsl.school.diary.api.subject.Subject;
 import pl.polsl.school.diary.api.teacher.Teacher;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalTime;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Data
@@ -25,12 +28,20 @@ public class Schedule extends BaseModel {
     private Teacher teacher;
 
     @ManyToOne
-    private Subject subject;
-
-    @ManyToOne
     private Classroom classroom;
 
     @ManyToOne
     private SchoolClass schoolClass;
+
+    @Column(name = "day")
+    private Short day;
+
+    @Column(name = "start_time")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalTime startTime;
+
+    @Column(name = "end_time")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalTime endTime;
 
 }

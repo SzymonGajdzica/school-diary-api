@@ -35,7 +35,7 @@ public class SchoolClassController {
             throw new WrongRequestException("This request is designed for teachers");
         SchoolClass ledClass = ((Teacher) teacher).getLedClass();
         if(ledClass == null)
-            throw new WrongRequestException("This request requires led class");
+            throw new WrongRequestException("This request requires having led class");
        return new SchoolClassDetailedView(ledClass);
     }
 

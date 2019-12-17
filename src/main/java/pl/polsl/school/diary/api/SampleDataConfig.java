@@ -6,22 +6,22 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
+import pl.polsl.school.diary.api.classroom.Classroom;
+import pl.polsl.school.diary.api.classroom.ClassroomRepository;
 import pl.polsl.school.diary.api.grade.Grade;
 import pl.polsl.school.diary.api.grade.GradeRepository;
 import pl.polsl.school.diary.api.grade.column.GradeColumn;
 import pl.polsl.school.diary.api.grade.column.GradeColumnRepository;
 import pl.polsl.school.diary.api.issue.Issue;
-import pl.polsl.school.diary.api.issue.IssueMessage;
-import pl.polsl.school.diary.api.issue.IssueMessageRepository;
 import pl.polsl.school.diary.api.issue.IssueRepository;
+import pl.polsl.school.diary.api.issue.message.IssueMessage;
+import pl.polsl.school.diary.api.issue.message.IssueMessageRepository;
 import pl.polsl.school.diary.api.note.Note;
 import pl.polsl.school.diary.api.note.NoteRepository;
 import pl.polsl.school.diary.api.parent.Parent;
 import pl.polsl.school.diary.api.parent.ParentRepository;
 import pl.polsl.school.diary.api.role.Role;
 import pl.polsl.school.diary.api.role.RoleRepository;
-import pl.polsl.school.diary.api.schedule.Classroom;
-import pl.polsl.school.diary.api.schedule.ClassroomRepository;
 import pl.polsl.school.diary.api.schedule.Schedule;
 import pl.polsl.school.diary.api.schedule.ScheduleRepository;
 import pl.polsl.school.diary.api.schoolclass.SchoolClass;
@@ -33,7 +33,11 @@ import pl.polsl.school.diary.api.subject.SubjectRepository;
 import pl.polsl.school.diary.api.teacher.Teacher;
 import pl.polsl.school.diary.api.teacher.TeacherRepository;
 
-import java.util.*;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @Configuration
@@ -67,7 +71,7 @@ public class SampleDataConfig implements ApplicationRunner {
         GradeColumn gradeColumn = createGradeColumn(teacher, schoolClass);
         Student student = createStudent(studentRole, parent, schoolClass);
         Issue issue = createIssue(new HashSet<>(Arrays.asList(parent, teacher)));
-        Schedule schedule = createSchedule(classroom, schoolClass, subject, teacher);
+        Schedule schedule = createSchedule(classroom, schoolClass, teacher);
         Grade grade = createGrade(student, gradeColumn);
         IssueMessage issueMessage = createIssueMessage(teacher, issue);
         Note note = createNote(teacher, student);
@@ -102,12 +106,14 @@ public class SampleDataConfig implements ApplicationRunner {
         return schoolClassRepository.save(schoolClass);
     }
 
-    private Schedule createSchedule(Classroom classroom, SchoolClass schoolClass, Subject subject, Teacher teacher) {
+    private Schedule createSchedule(Classroom classroom, SchoolClass schoolClass, Teacher teacher) {
         Schedule schedule = new Schedule();
         schedule.setClassroom(classroom);
         schedule.setSchoolClass(schoolClass);
-        schedule.setSubject(subject);
         schedule.setTeacher(teacher);
+        schedule.setDay((short) 1);
+        schedule.setStartTime(LocalTime.of(10, 0));
+        schedule.setEndTime(LocalTime.of(10, 45));
         return scheduleRepository.save(schedule);
     }
 
@@ -137,7 +143,6 @@ public class SampleDataConfig implements ApplicationRunner {
 
     private IssueMessage createIssueMessage(ActiveUser author, Issue issue) {
         IssueMessage issueMessage = new IssueMessage();
-        issueMessage.setDate(new Date());
         issueMessage.setMessage("We got some important things to talk");
         issueMessage.setAuthor(author);
         issueMessage.setIssue(issue);
@@ -153,7 +158,7 @@ public class SampleDataConfig implements ApplicationRunner {
 
     private Grade createGrade(Student student, GradeColumn gradeColumn){
         Grade grade = new Grade();
-        grade.setValue(Integer.valueOf(2).shortValue());
+        grade.setValue((short) 2);
         grade.setStudent(student);
         grade.setGradeColumn(gradeColumn);
         return gradeRepository.save(grade);

@@ -1,9 +1,9 @@
-package pl.polsl.school.diary.api.issue;
+package pl.polsl.school.diary.api.classroom;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface IssueMessageRepository extends JpaRepository<IssueMessage, Long> {
+public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
 
 }

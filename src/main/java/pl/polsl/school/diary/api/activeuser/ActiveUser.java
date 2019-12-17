@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.issue.Issue;
-import pl.polsl.school.diary.api.issue.IssueMessage;
+import pl.polsl.school.diary.api.issue.message.IssueMessage;
 import pl.polsl.school.diary.api.user.User;
 
 import javax.persistence.Entity;

@@ -1,10 +1,11 @@
-package pl.polsl.school.diary.api.schedule;
+package pl.polsl.school.diary.api.classroom;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.schedule.Schedule;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,9 +1,10 @@
-package pl.polsl.school.diary.api.issue;
+package pl.polsl.school.diary.api.issue.message;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.issue.Issue;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class IssueMessage extends BaseModel {
 
     @Column(name = "date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
+    private Date date = new Date();
 
     @ManyToOne
     private ActiveUser author;

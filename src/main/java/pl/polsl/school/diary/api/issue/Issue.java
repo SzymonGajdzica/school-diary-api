@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.school.diary.api.activeuser.ActiveUser;
 import pl.polsl.school.diary.api.base.BaseModel;
+import pl.polsl.school.diary.api.issue.message.IssueMessage;
 
 import javax.persistence.*;
 import java.util.Date;
