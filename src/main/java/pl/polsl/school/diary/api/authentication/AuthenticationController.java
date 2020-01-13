@@ -76,6 +76,7 @@ public class AuthenticationController {
         }
     }
 
+    @CrossOrigin
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthenticationView createAuthenticationToken(@RequestBody AuthenticationPost authenticationPost) {
         try {
@@ -87,6 +88,18 @@ public class AuthenticationController {
             throw new NotAuthorizedActionException("wrong credentials");
         }
     }
+
+
+
+    /*@CrossOrigin
+    @RequestMapping(value= "/login", method=RequestMethod.OPTIONS)
+    public String corsHeaders(HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
+        response.addHeader("Access-Control-Max-Age", "3600");
+        return "";
+    }*/
 
 
 

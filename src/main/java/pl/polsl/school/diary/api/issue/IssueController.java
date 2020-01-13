@@ -60,4 +60,5 @@ public class IssueController {
         return issueRepository.findAllByMembersContaining((ActiveUser) activeUser).stream().map(IssueView::new).collect(Collectors.toSet());
     }
 
+
 }
