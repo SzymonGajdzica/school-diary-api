@@ -18,6 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/grades")
 @AllArgsConstructor

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.polsl.school.diary.api.token.TokenRepository;
 import springfox.documentation.annotations.ApiIgnore;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
 @AllArgsConstructor

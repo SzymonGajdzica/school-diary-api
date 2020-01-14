@@ -14,6 +14,7 @@ import pl.polsl.school.diary.api.token.TokenRepository;
 import pl.polsl.school.diary.api.user.User;
 import springfox.documentation.annotations.ApiIgnore;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/issueMessages")
 @AllArgsConstructor

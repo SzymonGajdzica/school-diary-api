@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/notes")
 @AllArgsConstructor

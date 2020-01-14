@@ -25,6 +25,7 @@ import pl.polsl.school.diary.api.user.UserPost;
 import pl.polsl.school.diary.api.user.UserRepository;
 import pl.polsl.school.diary.api.user.UserView;
 
+@CrossOrigin
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/authenticate")
@@ -76,7 +77,6 @@ public class AuthenticationController {
         }
     }
 
-    @CrossOrigin
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthenticationView createAuthenticationToken(@RequestBody AuthenticationPost authenticationPost) {
         try {

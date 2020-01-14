@@ -24,7 +24,6 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            response.setHeader("Access-Control-Allow-Origin", "*");
             final String requestTokenHeader = request.getHeader("Authorization");
             String jwtToken = authenticationUtils.getTokenFromHeader(requestTokenHeader);
             String username = authenticationUtils.getUsernameFromToken(jwtToken);
