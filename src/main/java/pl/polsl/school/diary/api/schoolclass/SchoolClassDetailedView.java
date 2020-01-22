@@ -25,23 +25,23 @@ public class SchoolClassDetailedView {
     private String symbol;
 
     @ApiModelProperty(required = true, position = 2)
-    private Set<InnerStudentView> students;
+    private Set<SchoolClassInnerStudentView> students;
 
     @ApiModelProperty(required = true, position = 3)
-    private Set<InnerGradeColumnView> gradeColumns;
+    private Set<SchoolClassDetailedInnerGradeColumnView> gradeColumns;
 
     public SchoolClassDetailedView(SchoolClass schoolClass){
         this(schoolClass.getId(),
                 schoolClass.getSymbol(),
-                schoolClass.getStudents().stream().map(InnerStudentView::new).collect(Collectors.toSet()),
-                schoolClass.getGradeColumns().stream().map(InnerGradeColumnView::new).collect(Collectors.toSet()));
+                schoolClass.getStudents().stream().map(SchoolClassInnerStudentView::new).collect(Collectors.toSet()),
+                schoolClass.getGradeColumns().stream().map(SchoolClassDetailedInnerGradeColumnView::new).collect(Collectors.toSet()));
     }
 
 
     @Data
     @ToString
     @AllArgsConstructor
-    public static class InnerStudentView {
+    public static class SchoolClassInnerStudentView {
 
         @ApiModelProperty(required = true)
         private UserView details;
@@ -55,7 +55,7 @@ public class SchoolClassDetailedView {
         @ApiModelProperty(required = true, position = 3)
         private Set<NoteView> notes;
 
-        public InnerStudentView(Student student){
+        public SchoolClassInnerStudentView(Student student){
             this(new UserView(student),
                     student.getHasAccount(),
                     new UserView(student.getParent()),
@@ -67,7 +67,7 @@ public class SchoolClassDetailedView {
     @Data
     @ToString
     @AllArgsConstructor
-    public static class InnerGradeColumnView {
+    public static class SchoolClassDetailedInnerGradeColumnView {
 
         @ApiModelProperty(required = true)
         private Long id;
@@ -79,19 +79,19 @@ public class SchoolClassDetailedView {
         private Long subjectId;
 
         @ApiModelProperty(required = true, position = 3)
-        private Set<InnerGradeView> grades;
+        private Set<SchoolClassDetailedInnerGradeView> grades;
 
-        public InnerGradeColumnView(GradeColumn gradeColumn) {
+        public SchoolClassDetailedInnerGradeColumnView(GradeColumn gradeColumn) {
             this(gradeColumn.getId(),
                     gradeColumn.getName(),
                     gradeColumn.getTeacher().getTaughtSubject().getId(),
-                    gradeColumn.getGrades().stream().map(InnerGradeView::new).collect(Collectors.toSet()));
+                    gradeColumn.getGrades().stream().map(SchoolClassDetailedInnerGradeView::new).collect(Collectors.toSet()));
         }
 
         @Data
         @ToString
         @AllArgsConstructor
-        public static class InnerGradeView {
+        public static class SchoolClassDetailedInnerGradeView {
 
             @ApiModelProperty(required = true)
             private Long id;
@@ -102,7 +102,7 @@ public class SchoolClassDetailedView {
             @ApiModelProperty(required = true, position = 2)
             private Long studentId;
 
-            public InnerGradeView(Grade grade) {
+            public SchoolClassDetailedInnerGradeView(Grade grade) {
                 this(grade.getId(),
                         grade.getValue(),
                         grade.getStudent().getId());

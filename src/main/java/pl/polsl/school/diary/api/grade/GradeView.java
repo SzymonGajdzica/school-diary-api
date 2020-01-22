@@ -19,7 +19,7 @@ public class GradeView {
     private Short value;
 
     @ApiModelProperty(required = true, position = 2)
-    private InnerGradeColumnView gradeColumn;
+    private GradeInnerGradeColumnView gradeColumn;
 
     @ApiModelProperty(required = true, position = 3)
     private Long studentId;
@@ -27,14 +27,14 @@ public class GradeView {
     public GradeView(Grade grade) {
         this(grade.getId(),
                 grade.getValue(),
-                new InnerGradeColumnView(grade.getGradeColumn()),
+                new GradeInnerGradeColumnView(grade.getGradeColumn()),
                 grade.getStudent().getId());
     }
 
     @Data
     @ToString
     @AllArgsConstructor
-    public static class InnerGradeColumnView {
+    public static class GradeInnerGradeColumnView {
 
         @ApiModelProperty(required = true)
         private Long id;
@@ -45,7 +45,7 @@ public class GradeView {
         @ApiModelProperty(required = true, position = 2)
         private Long teacherId;
 
-        public InnerGradeColumnView(GradeColumn gradeColumn) {
+        public GradeInnerGradeColumnView(GradeColumn gradeColumn) {
             this(gradeColumn.getId(),
                     gradeColumn.getName(),
                     gradeColumn.getTeacher().getId());

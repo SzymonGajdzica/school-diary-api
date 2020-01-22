@@ -25,19 +25,19 @@ public class IssueView {
     private Set<Long> membersIds;
 
     @ApiModelProperty(required = true, position = 3)
-    private Set<InnerIssueMessageView> messageViews;
+    private Set<IssueInnerIssueMessageView> messageViews;
 
     public IssueView(Issue issue){
         this(issue.getId(),
                 issue.getTopic(),
                 issue.getMembers().stream().map(BaseModel::getId).collect(Collectors.toSet()),
-                issue.getMessages().stream().map(InnerIssueMessageView::new).collect(Collectors.toSet()));
+                issue.getMessages().stream().map(IssueInnerIssueMessageView::new).collect(Collectors.toSet()));
     }
 
     @Data
     @ToString
     @AllArgsConstructor
-    public static class InnerIssueMessageView {
+    public static class IssueInnerIssueMessageView {
 
         @ApiModelProperty(required = true)
         private Long id;
@@ -48,7 +48,7 @@ public class IssueView {
         @ApiModelProperty(required = true, position = 2)
         private Long authorId;
 
-        public InnerIssueMessageView(IssueMessage issueMessage){
+        public IssueInnerIssueMessageView(IssueMessage issueMessage){
             this(issueMessage.getId(),
                     issueMessage.getMessage(),
                     issueMessage.getAuthor().getId());

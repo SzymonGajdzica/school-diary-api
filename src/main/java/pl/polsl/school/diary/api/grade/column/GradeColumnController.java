@@ -54,6 +54,7 @@ public class GradeColumnController {
         if (!(teacher instanceof Teacher))
             throw new WrongRequestException("this request only handles teacher");
         Set<GradeColumn> columns;
+
         if (schoolClassId != null)
             columns = gradeColumnRepository.findAllByTeacherIdAndSchoolClassId(teacher.getId(), schoolClassId);
         else
