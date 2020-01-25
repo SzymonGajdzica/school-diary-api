@@ -60,6 +60,8 @@ public class SampleDataConfig implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        if(!roleRepository.findAll().isEmpty())
+            return;
         Role studentRole = createStudentRole();
         Role parentRole = createParentRole();
         Role teacherRole = createTeacherRole();
