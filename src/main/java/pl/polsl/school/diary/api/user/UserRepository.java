@@ -16,5 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select id from users where dtype in ('Teacher', 'Parent') and id in :ids", nativeQuery = true)
     Set<Long> findIdsByIdIsIn(@Param("ids") Set<Long> ids);
 
+    Set<User> findAllByRoleIdIsIn(Set<Long> ids);
+
 }
 
