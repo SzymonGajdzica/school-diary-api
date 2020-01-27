@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -33,10 +34,10 @@ public class Student extends User {
     private SchoolClass schoolClass;
 
     @OneToMany(mappedBy = "student")
-    private Set<Grade> grades;
+    private Set<Grade> grades = new HashSet<>();
 
     @OneToMany(mappedBy = "student")
-    private Set<Note> notes;
+    private Set<Note> notes = new HashSet<>();
 
     public Student(User user) {
         super(user);

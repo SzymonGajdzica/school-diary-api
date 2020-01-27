@@ -12,6 +12,7 @@ import pl.polsl.school.diary.api.subject.Subject;
 import pl.polsl.school.diary.api.user.User;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -24,7 +25,7 @@ public class Teacher extends ActiveUser {
     private Boolean isHeadTeacher;
 
     @ManyToMany
-    private Set<SchoolClass> schoolClasses;
+    private Set<SchoolClass> schoolClasses = new HashSet<>();
 
     @ManyToOne
     private Subject taughtSubject;
@@ -33,13 +34,13 @@ public class Teacher extends ActiveUser {
     private SchoolClass ledClass;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<Schedule> schedules;
+    private Set<Schedule> schedules = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher")
-    private Set<GradeColumn> gradeColumns;
+    private Set<GradeColumn> gradeColumns = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher")
-    private Set<Note> notes;
+    private Set<Note> notes = new HashSet<>();
 
     public Teacher(User user) {
         super(user);

@@ -26,15 +26,23 @@ public class SchoolClassController {
         return schoolClassRepository.findAll().stream().map(SchoolClassView::new).collect(Collectors.toSet());
     }
 
-    @GetMapping(value = "/details" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public SchoolClassDetailedView getDetails(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
+    @GetMapping(value = "/ledClass" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public LedSchoolClassView getLedSchoolClass(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
         User teacher = tokenRepository.getUserFromHeader(tokenHeader);
         if(!(teacher instanceof Teacher))
             throw new WrongRequestException("This request is designed for teachers");
         SchoolClass ledClass = ((Teacher) teacher).getLedClass();
         if(ledClass == null)
             throw new WrongRequestException("This request requires having led class");
-       return new SchoolClassDetailedView(ledClass);
+       return new LedSchoolClassView(ledClass);
+    }
+
+    @GetMapping(value = "/teachIn" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<TeachInSchoolClassView> getTeachInSchoolClasses(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader) {
+        User teacher = tokenRepository.getUserFromHeader(tokenHeader);
+        if(!(teacher instanceof Teacher))
+            throw new WrongRequestException("This request is designed for teachers");
+        return ((Teacher) teacher).getSchoolClasses().stream().map(TeachInSchoolClassView::new).collect(Collectors.toSet());
     }
 
 }

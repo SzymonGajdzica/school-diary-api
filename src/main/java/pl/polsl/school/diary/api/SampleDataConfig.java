@@ -34,15 +34,14 @@ import pl.polsl.school.diary.api.teacher.Teacher;
 import pl.polsl.school.diary.api.teacher.TeacherRepository;
 
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Configuration
 public class SampleDataConfig implements ApplicationRunner {
 
+    private final Random random = new Random();
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final GradeRepository gradeRepository;
     private final IssueRepository issueRepository;
@@ -59,69 +58,108 @@ public class SampleDataConfig implements ApplicationRunner {
     private final NoteRepository noteRepository;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        if(!roleRepository.findAll().isEmpty())
-            return;
+    public void run(ApplicationArguments args) {
+        Collection<SchoolClass> schoolClasses = new HashSet<>();
+        Collection<Classroom> classrooms = new HashSet<>();
+        Collection<Subject> subjects = new HashSet<>();
+        Collection<Parent> parents = new HashSet<>();
+        Collection<Teacher> teachers = new HashSet<>();
+        Collection<GradeColumn> gradeColumns = new HashSet<>();
+        Collection<Student> students = new HashSet<>();
+        Collection<Issue> issues = new HashSet<>();
+        Collection<Schedule> schedules = new HashSet<>();
+        Collection<Grade> grades = new HashSet<>();
+        Collection<IssueMessage> issueMessages = new HashSet<>();
+        Collection<Note> notes = new HashSet<>();
+
         Role studentRole = createStudentRole();
         Role parentRole = createParentRole();
         Role teacherRole = createTeacherRole();
-        SchoolClass schoolClass = createSchoolClass();
-        Classroom classroom = createClassroom();
-        Subject subject = createSubject();
-        Parent parent = createParent(parentRole);
-        Teacher teacher = createTeacher(teacherRole, subject, schoolClass);
-        GradeColumn gradeColumn = createGradeColumn(teacher, schoolClass);
-        Student student = createStudent(studentRole, parent, schoolClass);
-        Issue issue = createIssue(new HashSet<>(Arrays.asList(parent, teacher)));
-        Schedule schedule = createSchedule(classroom, schoolClass, teacher);
-        Grade grade = createGrade(student, gradeColumn);
-        IssueMessage issueMessage = createIssueMessage(teacher, issue);
-        Note note = createNote(teacher, student);
+
+        for (int i = 0; i < 5; i++)
+            schoolClasses.add(createSchoolClass());
+        for (int i = 0; i < 5; i++)
+            classrooms.add(createClassroom());
+        for (int i = 0; i < 5; i++)
+            subjects.add(createSubject());
+        for (int i = 0; i < 5; i++)
+            parents.add(createParent(parentRole, i));
+        for (int i = 0; i < 5; i++)
+            teachers.add(createTeacher(teacherRole, subjects, schoolClasses, i));
+        for (int i = 0; i < 5; i++)
+            gradeColumns.add(createGradeColumn(teachers));
+        for (int i = 0; i < 5; i++)
+            students.add(createStudent(studentRole, parents, schoolClasses, i));
+        for (int i = 0; i < 10; i++)
+            issues.add(createIssue(merge(parents.stream().map(teacher1 -> (ActiveUser) teacher1).collect(Collectors.toSet()), teachers.stream().map(teacher1 -> (ActiveUser) teacher1).collect(Collectors.toSet()))));
+        for (int i = 0; i < 20; i++)
+            schedules.add(createSchedule(classrooms, teachers));
+        for (int i = 0; i < 20; i++)
+            grades.add(createGrade(gradeColumns));
+        for (int i = 0; i < 20; i++)
+            issueMessages.add(createIssueMessage(teachers.stream().map(teacher1 -> (ActiveUser) teacher1).collect(Collectors.toSet())));
+        for (int i = 0; i < 20; i++)
+            notes.add(createNote(teachers));
     }
 
-    private Note createNote(Teacher teacher, Student student) {
+    private Note createNote(Collection<Teacher> teachers) {
+        Teacher teacher = findAny(teachers.stream().filter(teacher1 -> !teacher1.getLedClass().getStudents().isEmpty()).collect(Collectors.toSet()));
+        Student student = findAny(teacher.getLedClass().getStudents());
         Note note = new Note();
-        note.setTitle("Bad behaviour on school trip");
-        note.setDescription("Jan was...");
+        note.setTitle("Bad behaviour on school trip" + getRandom(100));
+        note.setDescription("Was late " + +getRandom(100) + " times");
         note.setTeacher(teacher);
+        teacher.getNotes().add(note);
         note.setStudent(student);
+        student.getNotes().add(note);
         return noteRepository.save(note);
     }
 
-    private GradeColumn createGradeColumn(Teacher teacher, SchoolClass schoolClass) {
+    private GradeColumn createGradeColumn(Collection<Teacher> teachers) {
+        Teacher teacher = findAny(teachers);
+        SchoolClass schoolClass = findAny(teacher.getSchoolClasses());
         GradeColumn gradeColumn = new GradeColumn();
-        gradeColumn.setName("Test1");
+        gradeColumn.setName("Test " + getRandom(100));
         gradeColumn.setSchoolClass(schoolClass);
+        schoolClass.getGradeColumns().add(gradeColumn);
         gradeColumn.setTeacher(teacher);
+        teacher.getGradeColumns().add(gradeColumn);
         return gradeColumnRepository.save(gradeColumn);
     }
 
     private Subject createSubject() {
         Subject subject = new Subject();
-        subject.setName("Math");
+        subject.setName("Subject " + getRandom(100));
         return subjectRepository.save(subject);
     }
 
     private SchoolClass createSchoolClass() {
         SchoolClass schoolClass = new SchoolClass();
-        schoolClass.setSymbol("32");
+        schoolClass.setSymbol(getRandom(100) + "");
         return schoolClassRepository.save(schoolClass);
     }
 
-    private Schedule createSchedule(Classroom classroom, SchoolClass schoolClass, Teacher teacher) {
+    private Schedule createSchedule(Collection<Classroom> classrooms, Collection<Teacher> teachers) {
+        Teacher teacher = findAny(teachers);
+        SchoolClass schoolClass = findAny(teacher.getSchoolClasses());
+        Classroom classroom = findAny(classrooms);
         Schedule schedule = new Schedule();
         schedule.setClassroom(classroom);
+        classroom.getSchedules().add(schedule);
         schedule.setSchoolClass(schoolClass);
+        schoolClass.getSchedules().add(schedule);
         schedule.setTeacher(teacher);
-        schedule.setDay((short) 1);
-        schedule.setStartTime(LocalTime.of(10, 0));
-        schedule.setEndTime(LocalTime.of(10, 45));
+        teacher.getSchedules().add(schedule);
+        schedule.setDay((short) getRandom(4));
+        int hour = getRandom(8) + 8;
+        schedule.setStartTime(LocalTime.of(hour, 0));
+        schedule.setEndTime(LocalTime.of(hour, 45));
         return scheduleRepository.save(schedule);
     }
 
-    private Classroom createClassroom(){
+    private Classroom createClassroom() {
         Classroom classroom = new Classroom();
-        classroom.setSymbol("3D");
+        classroom.setSymbol(getRandom(100) + "A");
         return classroomRepository.save(classroom);
     }
 
@@ -143,70 +181,113 @@ public class SampleDataConfig implements ApplicationRunner {
         return roleRepository.save(role);
     }
 
-    private IssueMessage createIssueMessage(ActiveUser author, Issue issue) {
+    private IssueMessage createIssueMessage(Collection<ActiveUser> authors) {
+        ActiveUser author = findAny(authors.stream().filter(activeUser -> !activeUser.getIssues().isEmpty()).collect(Collectors.toSet()));
+        Issue issue = findAny(author.getIssues());
         IssueMessage issueMessage = new IssueMessage();
-        issueMessage.setMessage("We got some important things to talk");
+        issueMessage.setMessage("We got some important things to talk about issue " + getRandom(100));
         issueMessage.setAuthor(author);
+        author.getMessages().add(issueMessage);
         issueMessage.setIssue(issue);
+        issue.getMessages().add(issueMessage);
         return issueMessageRepository.save(issueMessage);
     }
 
-    private Issue createIssue(Set<ActiveUser> members) {
+    private Issue createIssue(Collection<ActiveUser> members) {
+        Set<ActiveUser> filteredMembers = members.stream().filter(activeUser -> getRandom(100) < 50).collect(Collectors.toSet());
         Issue issue = new Issue();
-        issue.setTopic("Important issue topic");
-        issue.setMembers(members);
+        issue.setTopic("Important issue topic number " + getRandom(100));
+        issue.setMembers(filteredMembers);
+        filteredMembers.forEach(activeUser -> activeUser.getIssues().add(issue));
         return issueRepository.save(issue);
     }
 
-    private Grade createGrade(Student student, GradeColumn gradeColumn){
+    private Grade createGrade(Collection<GradeColumn> gradeColumns) {
+        GradeColumn gradeColumn = findAny(gradeColumns.stream().filter(gradeColumn1 -> !gradeColumn1.getSchoolClass().getStudents().isEmpty()).collect(Collectors.toSet()));
+        Student student = findAny(gradeColumn.getSchoolClass().getStudents());
         Grade grade = new Grade();
-        grade.setValue((short) 2);
+        grade.setValue((short) (getRandom(5) + 1));
         grade.setStudent(student);
+        student.getGrades().add(grade);
         grade.setGradeColumn(gradeColumn);
+        gradeColumn.getGrades().add(grade);
         return gradeRepository.save(grade);
     }
 
-    private Teacher createTeacher(Role teacherRole, Subject taughtSubject, SchoolClass ledClass) {
+    private Teacher createTeacher(Role teacherRole, Collection<Subject> subjects, Collection<SchoolClass> schoolClasses, int random) {
+        Subject taughtSubject = findAny(subjects);
+        SchoolClass schoolClass = findAny(schoolClasses);
+        SchoolClass ledClass = schoolClasses.stream().filter(schoolClass1 -> schoolClass1.getLeadingTeacher() == null).findAny().orElse(null);
         Teacher teacher = new Teacher();
-        teacher.setSchoolClasses(new HashSet<>(Collections.singletonList(ledClass)));
+        teacher.setSchoolClasses(new HashSet<>(Collections.singletonList(schoolClass)));
+        schoolClass.getTeachers().add(teacher);
         teacher.setIsHeadTeacher(true);
         teacher.setTaughtSubject(taughtSubject);
+        taughtSubject.getTeachers().add(teacher);
         teacher.setLedClass(ledClass);
-        teacher.setUsername("jano33");
-        teacher.setPassword(bCryptPasswordEncoder.encode("jano33"));
-        teacher.setEmail("jano33@wp.pl");
-        teacher.setName("janothree");
-        teacher.setSurname("janowicz");
+        if (ledClass != null)
+            ledClass.setLeadingTeacher(teacher);
+        teacher.setUsername("jano3" + random);
+        teacher.setPassword(bCryptPasswordEncoder.encode("jano3" + random));
+        teacher.setEmail("jano3" + random + "@wp.pl");
+        teacher.setName("janoo3" + random);
+        teacher.setSurname("janowicz3" + random);
         teacher.setRole(teacherRole);
+        teacherRole.getUsers().add(teacher);
         teacher = teacherRepository.save(teacher);
-        ledClass.setTeachers(new HashSet<>(Collections.singletonList(teacher)));
-        schoolClassRepository.save(ledClass);
+        if (ledClass != null) {
+            ledClass.setTeachers(new HashSet<>(Collections.singletonList(teacher)));
+            schoolClassRepository.save(ledClass);
+        }
         return teacher;
     }
 
-    private Parent createParent(Role parentRole) {
+    private Parent createParent(Role parentRole, int random) {
         Parent parent = new Parent();
-        parent.setUsername("jano22");
-        parent.setPassword(bCryptPasswordEncoder.encode("jano22"));
-        parent.setEmail("jano22@wp.pl");
-        parent.setName("janoone");
-        parent.setSurname("janowicz");
+        parent.setUsername("jano2" + random);
+        parent.setPassword(bCryptPasswordEncoder.encode("jano2" + random));
+        parent.setEmail("jano2" + random + "@wp.pl");
+        parent.setName("janoo2" + random);
+        parent.setSurname("janowicz2" + random);
         parent.setRole(parentRole);
+        parentRole.getUsers().add(parent);
         return parentRepository.save(parent);
     }
 
-    private Student createStudent(Role studentRole, Parent parent, SchoolClass schoolClass) {
+    private Student createStudent(Role studentRole, Collection<Parent> parents, Collection<SchoolClass> schoolClasses, int random) {
+        SchoolClass schoolClass = findAny(schoolClasses);
+        Parent parent = findAny(parents);
         Student student = new Student();
         student.setSchoolClass(schoolClass);
+        schoolClass.getStudents().add(student);
         student.setParent(parent);
+        parent.getChildren().add(student);
         student.setHasAccount(true);
-        student.setUsername("jano11");
-        student.setPassword(bCryptPasswordEncoder.encode("jano11"));
-        student.setEmail("jano11@wp.pl");
-        student.setName("janotwo");
-        student.setSurname("janowicz");
+        student.setUsername("jano1" + random);
+        student.setPassword(bCryptPasswordEncoder.encode("jano1" + random));
+        student.setEmail("jano1" + random + "@wp.pl");
+        student.setName("janoo1" + random);
+        student.setSurname("janowicz1" + random);
         student.setRole(studentRole);
+        studentRole.getUsers().add(student);
         return studentRepository.save(student);
+    }
+
+    private <T> Collection<T> merge(Collection<T> collection1, Collection<T> collection2) {
+        HashSet<T> hashSet = new HashSet<>(collection1);
+        hashSet.addAll(collection2);
+        return hashSet;
+    }
+
+    private <T> T findAny(Collection<T> collection) {
+        return collection.stream()
+                .skip((int) (collection.size() * Math.random()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private int getRandom(int bound) {
+        return random.nextInt(bound);
     }
 
 }

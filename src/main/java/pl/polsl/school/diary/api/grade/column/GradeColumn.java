@@ -10,6 +10,7 @@ import pl.polsl.school.diary.api.schoolclass.SchoolClass;
 import pl.polsl.school.diary.api.teacher.Teacher;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -24,7 +25,7 @@ public class GradeColumn extends BaseModel {
     private String name;
 
     @OneToMany(mappedBy = "gradeColumn", cascade = CascadeType.REMOVE)
-    private Set<Grade> grades;
+    private Set<Grade> grades = new HashSet<>();
 
     @ManyToOne
     private SchoolClass schoolClass;

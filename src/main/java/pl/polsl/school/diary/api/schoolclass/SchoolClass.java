@@ -11,6 +11,7 @@ import pl.polsl.school.diary.api.student.Student;
 import pl.polsl.school.diary.api.teacher.Teacher;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -25,18 +26,18 @@ public class SchoolClass extends BaseModel {
     private String symbol;
 
     @OneToMany(mappedBy = "schoolClass")
-    private Set<Student> students;
+    private Set<Student> students = new HashSet<>();
 
     @ManyToMany
-    private Set<Teacher> teachers;
+    private Set<Teacher> teachers = new HashSet<>();
 
     @OneToOne(mappedBy = "ledClass")
     private Teacher leadingTeacher;
 
     @OneToMany(mappedBy = "schoolClass")
-    private Set<Schedule> schedules;
+    private Set<Schedule> schedules = new HashSet<>();
 
     @OneToMany(mappedBy = "schoolClass")
-    private Set<GradeColumn> gradeColumns;
+    private Set<GradeColumn> gradeColumns = new HashSet<>();
 
 }

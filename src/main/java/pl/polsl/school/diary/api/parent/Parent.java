@@ -10,6 +10,7 @@ import pl.polsl.school.diary.api.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -20,7 +21,7 @@ import java.util.Set;
 public class Parent extends ActiveUser {
 
     @OneToMany(mappedBy = "parent")
-    private Set<Student> children;
+    private Set<Student> children = new HashSet<>();
 
     public Parent(User user) {
         super(user);

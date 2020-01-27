@@ -11,6 +11,7 @@ import pl.polsl.school.diary.api.issue.message.IssueMessage;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -29,8 +30,8 @@ public class Issue extends BaseModel {
     private Date startDate = new Date();
 
     @OneToMany(mappedBy = "issue")
-    private Set<IssueMessage> messages;
+    private Set<IssueMessage> messages = new HashSet<>();
 
     @ManyToMany
-    private Set<ActiveUser> members;
+    private Set<ActiveUser> members = new HashSet<>();
 }

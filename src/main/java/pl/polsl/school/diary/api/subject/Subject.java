@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -25,6 +26,6 @@ public class Subject extends BaseModel {
     private String name;
 
     @OneToMany(mappedBy = "taughtSubject")
-    private Set<Teacher> teachers;
+    private Set<Teacher> teachers = new HashSet<>();
 
 }
