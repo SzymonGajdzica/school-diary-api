@@ -59,6 +59,8 @@ public class SampleDataConfig implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        if(!roleRepository.findAll().isEmpty())
+            return;
         Collection<SchoolClass> schoolClasses = new HashSet<>();
         Collection<Classroom> classrooms = new HashSet<>();
         Collection<Subject> subjects = new HashSet<>();
@@ -88,7 +90,7 @@ public class SampleDataConfig implements ApplicationRunner {
             teachers.add(createTeacher(teacherRole, subjects, schoolClasses, i));
         for (int i = 0; i < 5; i++)
             gradeColumns.add(createGradeColumn(teachers));
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 20; i++)
             students.add(createStudent(studentRole, parents, schoolClasses, i));
         for (int i = 0; i < 10; i++)
             issues.add(createIssue(merge(parents.stream().map(teacher1 -> (ActiveUser) teacher1).collect(Collectors.toSet()), teachers.stream().map(teacher1 -> (ActiveUser) teacher1).collect(Collectors.toSet()))));
