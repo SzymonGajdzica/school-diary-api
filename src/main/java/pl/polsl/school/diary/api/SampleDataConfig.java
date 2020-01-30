@@ -102,6 +102,163 @@ public class SampleDataConfig implements ApplicationRunner {
             issueMessages.add(createIssueMessage(teachers.stream().map(teacher1 -> (ActiveUser) teacher1).collect(Collectors.toSet())));
         for (int i = 0; i < 20; i++)
             notes.add(createNote(teachers));
+
+        addStaticParams(teacherRole, parentRole, studentRole);
+
+        schoolClassRepository.saveAll(schoolClasses);
+        classroomRepository.saveAll(classrooms);
+        subjectRepository.saveAll(subjects);
+        parentRepository.saveAll(parents);
+        teacherRepository.saveAll(teachers);
+        gradeColumnRepository.saveAll(gradeColumns);
+        studentRepository.saveAll(students);
+        issueRepository.saveAll(issues);
+        scheduleRepository.saveAll(schedules);
+        gradeRepository.saveAll(grades);
+        issueMessageRepository.saveAll(issueMessages);
+        noteRepository.saveAll(notes);
+        roleRepository.save(studentRole);
+        roleRepository.save(parentRole);
+        roleRepository.save(teacherRole);
+    }
+
+    private void addStaticParams(Role teacherRole, Role parentRole, Role studentRole){
+        SchoolClass schoolClass = new SchoolClass();
+        schoolClass.setSymbol("3D");
+        schoolClass = schoolClassRepository.save(schoolClass);
+        Subject subject = new Subject();
+        subject.setName("Math");
+        subject = subjectRepository.save(subject);
+
+        Teacher teacher = new Teacher();
+        teacher.setSchoolClasses(new HashSet<>(Collections.singletonList(schoolClass)));
+        schoolClass.getTeachers().add(teacher);
+        teacher.setIsHeadTeacher(true);
+        teacher.setTaughtSubject(subject);
+        subject.getTeachers().add(teacher);
+        teacher.setLedClass(schoolClass);
+        schoolClass.setLeadingTeacher(teacher);
+        teacher.setUsername("teacher");
+        teacher.setPassword(bCryptPasswordEncoder.encode("teacher"));
+        teacher.setEmail("teacher.koks@wp.pl");
+        teacher.setName("Teacher");
+        teacher.setSurname("koks" + getRandom(10));
+        teacher.setRole(teacherRole);
+        teacherRole.getUsers().add(teacher);
+        teacher = teacherRepository.save(teacher);
+        schoolClass.setTeachers(new HashSet<>(Collections.singletonList(teacher)));
+
+        Parent parent1 = new Parent();
+        parent1.setUsername("parent1");
+        parent1.setPassword(bCryptPasswordEncoder.encode("parent1"));
+        parent1.setEmail("parent1.koks@wp.pl");
+        parent1.setName("parent1");
+        parent1.setSurname("koks" + getRandom(10));
+        parent1.setRole(parentRole);
+        parentRole.getUsers().add(parent1);
+        parent1 = parentRepository.save(parent1);
+
+        Student student1 = new Student();
+        student1.setSchoolClass(schoolClass);
+        schoolClass.getStudents().add(student1);
+        student1.setParent(parent1);
+        parent1.getChildren().add(student1);
+        student1.setHasAccount(true);
+        student1.setUsername("child1");
+        student1.setPassword(bCryptPasswordEncoder.encode("child1"));
+        student1.setEmail("child1.koks@wp.pl");
+        student1.setName("child1");
+        student1.setSurname("koks" + getRandom(10));
+        student1.setRole(studentRole);
+        studentRole.getUsers().add(student1);
+        student1 = studentRepository.save(student1);
+
+        Parent parent3 = new Parent();
+        parent3.setUsername("parent3");
+        parent3.setPassword(bCryptPasswordEncoder.encode("parent3"));
+        parent3.setEmail("parent3.koks@wp.pl");
+        parent3.setName("parent3");
+        parent3.setSurname("koks" + getRandom(10));
+        parent3.setRole(parentRole);
+        parentRole.getUsers().add(parent3);
+        parent3 = parentRepository.save(parent3);
+
+        Student student3 = new Student();
+        student3.setSchoolClass(schoolClass);
+        schoolClass.getStudents().add(student3);
+        student3.setParent(parent3);
+        parent3.getChildren().add(student3);
+        student3.setHasAccount(true);
+        student3.setUsername("child3");
+        student3.setPassword(bCryptPasswordEncoder.encode("child3"));
+        student3.setEmail("child1.koks@wp.pl");
+        student3.setName("child3");
+        student3.setSurname("koks" + getRandom(10));
+        student3.setRole(studentRole);
+        studentRole.getUsers().add(student3);
+        student3 = studentRepository.save(student3);
+
+        Parent parent2 = new Parent();
+        parent2.setUsername("parent2");
+        parent2.setPassword(bCryptPasswordEncoder.encode("parent2"));
+        parent2.setEmail("parent2.koks@wp.pl");
+        parent2.setName("parent2");
+        parent2.setSurname("koks" + getRandom(10));
+        parent2.setRole(parentRole);
+        parentRole.getUsers().add(parent2);
+        parent2 = parentRepository.save(parent2);
+
+        Student student2 = new Student();
+        student2.setSchoolClass(schoolClass);
+        schoolClass.getStudents().add(student2);
+        student2.setParent(parent2);
+        parent2.getChildren().add(student2);
+        student2.setHasAccount(true);
+        student2.setUsername("child2");
+        student2.setPassword(bCryptPasswordEncoder.encode("child2"));
+        student2.setEmail("child2.koks@wp.pl");
+        student2.setName("child2");
+        student2.setSurname("koks" + getRandom(10));
+        student2.setRole(studentRole);
+        studentRole.getUsers().add(student2);
+        student2 = studentRepository.save(student2);
+
+        GradeColumn gradeColumn1 = new GradeColumn();
+        gradeColumn1.setName("Final test");
+        gradeColumn1.setSchoolClass(schoolClass);
+        schoolClass.getGradeColumns().add(gradeColumn1);
+        gradeColumn1.setTeacher(teacher);
+        teacher.getGradeColumns().add(gradeColumn1);
+        gradeColumn1 = gradeColumnRepository.save(gradeColumn1);
+
+        GradeColumn gradeColumn2 = new GradeColumn();
+        gradeColumn2.setName("Calculus");
+        gradeColumn2.setSchoolClass(schoolClass);
+        schoolClass.getGradeColumns().add(gradeColumn2);
+        gradeColumn2.setTeacher(teacher);
+        teacher.getGradeColumns().add(gradeColumn2);
+        gradeColumn2 = gradeColumnRepository.save(gradeColumn2);
+
+        GradeColumn gradeColumn3 = new GradeColumn();
+        gradeColumn3.setName("Algebra exam");
+        gradeColumn3.setSchoolClass(schoolClass);
+        schoolClass.getGradeColumns().add(gradeColumn3);
+        gradeColumn3.setTeacher(teacher);
+        teacher.getGradeColumns().add(gradeColumn3);
+        gradeColumn3 = gradeColumnRepository.save(gradeColumn3);
+
+        schoolClassRepository.save(schoolClass);
+        teacherRepository.save(teacher);
+        subjectRepository.save(subject);
+        parentRepository.save(parent1);
+        studentRepository.save(student1);
+        parentRepository.save(parent2);
+        studentRepository.save(student2);
+        parentRepository.save(parent3);
+        studentRepository.save(student3);
+        gradeColumnRepository.save(gradeColumn1);
+        gradeColumnRepository.save(gradeColumn2);
+        gradeColumnRepository.save(gradeColumn3);
     }
 
     private Note createNote(Collection<Teacher> teachers) {

@@ -78,7 +78,7 @@ public class GradeColumnController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteGradeColumn(@ApiIgnore @RequestHeader(value = "Authorization") String tokenHeader,
-                               @PathVariable Long id) {
+                                  @PathVariable Long id) {
         User teacher = tokenRepository.getUserFromHeader(tokenHeader);
         GradeColumn gradeColumn = gradeColumnRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         if (!(teacher instanceof Teacher) || !gradeColumn.getTeacher().getId().equals(teacher.getId()))
